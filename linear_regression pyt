@@ -1,0 +1,70 @@
+from numpy import *
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import linear_model
+
+
+def cost_function(x, y, theta):
+    
+    m = len(y) 
+    error = np.sum((x.dot(theta)-y)**2)/2/m
+    return error
+  
+
+def step_gradient(theta0, theta1, data, alpha_value):
+    
+    old_theta0 = 0
+    old_theta1 = 0
+    N = float(len(data))
+    
+    for i in range(0, len(data)):
+        
+        x = data[i, 0]
+        y = data[i, 1]
+        theta0_gradient = (y - ((theta1 * x) + theta0))
+        old_theta0 += -(2/N) * theta0_gradient
+        theta1_gradient = x * (y - ((theta1 * x) + theta0))
+        old_theta1 += -(2/N) * theta1_gradient
+        
+    new_theta0 = theta0 - (alpha_value * old_theta0)
+    new_theta1 = theta1 - (alpha_value * old_theta1)
+    return [new_theta0, new_theta1]
+
+def gradient_descent(data, theta0, theta1, alpha_value, total_iterations):
+    b_theta0 = theta0
+    m_theta1 = theta1
+    for i in range(total_iterations):
+        b_theta0, m_theta1 = step_gradient(b_theta0, m_theta1, array(data), alpha_value)
+    return [b_theta0, m_theta1]
+
+def calculate():
+    data = genfromtxt("data.csv", delimiter=",")
+    theta0 = 4  
+    theta1 = 170
+ 
+    iterations = 1000
+    alpha_value = 0.0001
+    print ("Gradient descent at theta0 = {0}, theta1 = {1}, error = {2}".format(theta0, theta1, compute_error_for_line_given_points(theta0, theta1, data)))
+    print ("calculating...")
+    [b_theta0, m_theta1] = gradient_descent(data, theta0, theta1, alpha_value, iterations)
+    print ("After {0} iterations theta0 = {1}, theta1 = {2}, error = {3}".format(iterations, b_theta0, m_theta1, compute_error_for_line_given_points(b_theta0, m_theta1, data)))
+    
+    x1 = 0
+    y1 = theta1*x1+theta0
+    x2 = 4700
+    y2 = theta1*x2+theta0
+    
+    plt.figure(figsize = (15,4),dpi=100)
+    plt.subplot(121)
+    plt.scatter(X,Y)
+    plt.xlabel("Size of house (X)")
+    plt.ylabel("Price (Y)")
+    plt.plot([x1, x2], [y1, y2], '-')
+    plt.show()
+    
+if __name__ == '__main__':
+    calculate()
+    
+   
+    
+    

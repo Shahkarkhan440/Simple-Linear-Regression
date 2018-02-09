@@ -57,7 +57,7 @@ def calculate():
     plt.figure(figsize = (15,4),dpi=100)
     plt.subplot(121)
     plt.scatter(X,Y)
-    plt.xlabel("Size of house (X)")
+    plt.xlabel("Size of house (X) in Sq Feet")
     plt.ylabel("Price (Y)")
     plt.plot([x1, x2], [y1, y2], '-')
     plt.show()
